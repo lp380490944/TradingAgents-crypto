@@ -226,49 +226,6 @@ def get_crypto_market_data(
     return result_str
 
 
-def get_crypto_news(
-    symbol: Annotated[str, "Cryptocurrency symbol like BTC, ETH"],
-    curr_date: Annotated[str, "Current date in yyyy-mm-dd format"],
-    look_back_days: Annotated[int, "How many days to look back"] = 7,
-) -> str:
-    """
-    Get recent news about a cryptocurrency
-    
-    Args:
-        symbol: Crypto symbol
-        curr_date: Current date in yyyy-mm-dd format
-        look_back_days: Number of days to look back
-    
-    Returns:
-        String representation of news data
-    """
-    # Using CoinGecko's news endpoint or general crypto news
-    api = CoinGeckoAPI()
-    
-    # Get trending coins and news (CoinGecko doesn't have coin-specific news in free tier)
-    trending_data = api._make_request("/search/trending")
-    
-    result_str = f"## Crypto Market News and Trends (Past {look_back_days} days):\n\n"
-    
-    if trending_data and "coins" in trending_data:
-        result_str += "**Trending Cryptocurrencies:**\n"
-        for coin in trending_data["coins"][:5]:
-            item = coin.get("item", {})
-            result_str += f"- {item.get('name', 'N/A')} ({item.get('symbol', 'N/A')}): Rank #{item.get('market_cap_rank', 'N/A')}\n"
-        result_str += "\n"
-    
-    # Get general market data as news context
-    global_data = api._make_request("/global")
-    if global_data and "data" in global_data:
-        data = global_data["data"]
-        result_str += "**Global Market Overview:**\n"
-        result_str += f"- Total Market Cap: ${data.get('total_market_cap', {}).get('usd', 0):,.0f}\n"
-        result_str += f"- 24h Volume: ${data.get('total_volume', {}).get('usd', 0):,.0f}\n"
-        result_str += f"- Bitcoin Dominance: {data.get('market_cap_percentage', {}).get('btc', 0):.1f}%\n"
-        result_str += f"- Active Cryptocurrencies: {data.get('active_cryptocurrencies', 0):,}\n"
-    
-    return result_str
-
 
 def get_crypto_technical_indicators(
     symbol: Annotated[str, "Cryptocurrency symbol like BTC, ETH"],

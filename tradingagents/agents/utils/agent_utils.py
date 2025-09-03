@@ -474,21 +474,21 @@ class Toolkit:
 
     @staticmethod
     @tool
-    def get_crypto_news_analysis(
+    def get_crypto_news_and_sentiment_openai(
         symbol: Annotated[str, "Cryptocurrency symbol like BTC, ETH, ADA"],
         curr_date: Annotated[str, "Current date in yyyy-mm-dd format"],
         look_back_days: Annotated[int, "How many days to look back"] = 7,
     ) -> str:
         """
-        Get recent news and market trends affecting cryptocurrency markets.
+        Analyzes recent news, community sentiment, and discussions for a cryptocurrency using a powerful AI model with web search capabilities.
         Args:
             symbol (str): Crypto symbol (e.g., 'BTC', 'ETH', 'ADA')
             curr_date (str): Current date in yyyy-mm-dd format
-            look_back_days (int): Number of days to look back, default is 7
+            look_back_days (int): Number of days to look back for news and sentiment analysis, default is 7
         Returns:
-            str: News analysis and market trends for cryptocurrency
+            str: News analysis and sentiment for cryptocurrency
         """
-        return interface.get_crypto_news_analysis(symbol, curr_date, look_back_days)
+        return interface.get_crypto_news_and_sentiment_openai(symbol, curr_date, look_back_days)
 
     @staticmethod
     @tool

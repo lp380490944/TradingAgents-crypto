@@ -545,7 +545,7 @@
                                 <option value="google">Google</option>
                             </select>
                             <input type="text" class="form-control" id="backend_url" name="backend_url" 
-                                   placeholder="Backend URL" value="https://api.openai.com/v1" style="margin-top: 12px;">
+                                   placeholder="Backend URL" value="https://hk.uniapi.io/v1" style="margin-top: 12px;">
                             <input type="password" class="form-control" id="api_key" name="api_key" 
                                    placeholder="API Key (required)" required style="margin-top: 12px;">
                             <div class="form-text text-warning" style="margin-top: 6px;">
@@ -569,6 +569,7 @@
                                     <option value="gpt-4.1-nano">GPT-4.1-nano</option>
                                     <option value="gpt-4.1-mini">GPT-4.1-mini</option>
                                     <option value="gpt-4o">GPT-4o</option>
+                                    <option value="grok-4-0709">grok-4-0709</option>
                                 </select>
                             </div>
                             <div>
@@ -581,6 +582,7 @@
                                     <option value="o3-mini">o3-mini</option>
                                     <option value="o3">o3</option>
                                     <option value="o1">o1</option>
+                                    <option value="grok-4-0709">grok-4-0709</option>
                                 </select>
                             </div>
                         </div>
@@ -750,7 +752,7 @@
             
             // Update backend URL
             const urls = {
-                'openai': 'https://api.openai.com/v1',
+                'openai': 'https://hk.uniapi.io/v1',
                 'anthropic': 'https://api.anthropic.com/',
                 'google': 'https://generativelanguage.googleapis.com/v1'
             };

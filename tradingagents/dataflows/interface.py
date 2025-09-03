@@ -7,7 +7,6 @@ from .finnhub_utils import get_data_in_range
 from .coingecko_utils import (
     get_crypto_price_data,
     get_crypto_market_data,
-    get_crypto_news,
     get_crypto_technical_indicators
 )
 from dateutil.relativedelta import relativedelta
@@ -770,6 +769,46 @@ def get_global_news_openai(curr_date):
             }
         ],
         temperature=1,
+        max_output_tokens=4096,
+        top_p=1,
+        store=True,
+    )
+
+    return response.output[1].content[0].text
+
+
+def get_crypto_news_and_sentiment_openai(symbol, curr_date, look_back_days=7):
+    config = get_config()
+    client = OpenAI(base_url=config["backend_url"], api_key=config["api_key"])
+
+    # Convert look_back_days to a start date
+    end_date_obj = datetime.strptime(curr_date, "%Y-%m-%d")
+    start_date_obj = end_date_obj - relativedelta(days=look_back_days)
+    start_date = start_date_obj.strftime("%Y-%m-%d")
+
+    response = client.responses.create(
+        model=config["quick_think_llm"],
+        input=[
+            {
+                "role": "system",
+                "content": [
+                    {
+                        "type": "input_text",
+                        "text": f"Please provide a detailed analysis of news, community sentiment, and discussions for {symbol.upper()} from {start_date} to {curr_date}. Focus on factors that could influence its price and trading volume. Summarize the key findings.",
+                    }
+                ],
+            }
+        ],
+        text={"format": {"type": "text"}},
+        reasoning={},
+        tools=[
+            {
+                "type": "web_search_preview",
+                "user_location": {"type": "approximate"},
+                "search_context_size": "low",
+            }
+        ],
+        temperature=0.5,
         max_output_tokens=4096,
         top_p=1,
         store=True,
